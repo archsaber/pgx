@@ -162,7 +162,7 @@ func Connect(config ConnConfig) (c *Conn, err error) {
 		}
 	}
 	if c.config.Dial == nil {
-		c.config.Dial = (&net.Dialer{KeepAlive: 5 * time.Minute, Timeout: 1 * time.Second}).Dial
+		c.config.Dial = (&net.Dialer{KeepAlive: 5 * time.Minute, Timeout: 5 * time.Second}).Dial
 	}
 
 	err = c.connect(config, network, address, config.TLSConfig)
