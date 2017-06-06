@@ -127,7 +127,9 @@ func (e SerializationError) Error() string {
 	return string(e)
 }
 
-// Scanner is an interface used to decode values from the PostgreSQL server.
+// Deprecated: Scanner is an interface used to decode values from the PostgreSQL
+// server. To allow types to support pgx and database/sql.Scan this interface
+// has been deprecated in favor of PgxScanner.
 type Scanner interface {
 	// Scan MUST check r.Type().DataType (to check by OID) or
 	// r.Type().DataTypeName (to check by name) to ensure that it is scanning an
@@ -135,6 +137,18 @@ type Scanner interface {
 	// decoding. It should not assume that it was called on a data type or format
 	// that it understands.
 	Scan(r *ValueReader) error
+}
+
+// PgxScanner is an interface used to decode values from the PostgreSQL server.
+// It is used exactly the same as the Scanner interface. It simply has renamed
+// the method.
+type PgxScanner interface {
+	// ScanPgx MUST check r.Type().DataType (to check by OID) or
+	// r.Type().DataTypeName (to check by name) to ensure that it is scanning an
+	// expected column type. It also MUST check r.Type().FormatCode before
+	// decoding. It should not assume that it was called on a data type or format
+	// that it understands.
+	ScanPgx(r *ValueReader) error
 }
 
 // Encoder is an interface used to encode values for transmission to the
@@ -879,7 +893,11 @@ func (h Hstore) Encode(w *WriteBuf, oid Oid) error {
 		ks = strings.Replace(ks, `"`, `\"`, -1)
 		vs := strings.Replace(v, `\`, `\\`, -1)
 		vs = strings.Replace(vs, `"`, `\"`, -1)
-		buf.WriteString(fmt.Sprintf(`"%s"=>"%s"`, ks, vs))
+		buf.WriteString(`"`)
+		buf.WriteString(ks)
+		buf.WriteString(`"=>"`)
+		buf.WriteString(vs)
+		buf.WriteString(`"`)
 		if i < len(h) {
 			buf.WriteString(", ")
 		}

@@ -1,4 +1,18 @@
+[![](https://godoc.org/github.com/jackc/pgx?status.svg)](https://godoc.org/github.com/jackc/pgx)
+
 # Pgx
+
+## Master Branch
+
+This is the `master` branch which tracks the stable release of the current
+version. At the moment this is `v2`. The `v3` branch which is currently in beta.
+General release is planned for July. `v3` is considered to be stable in the
+sense of lack of known bugs, but the API is not considered stable until general
+release. No further changes are planned, but the beta process may surface
+desirable changes. If possible API changes are acceptable, then `v3` is the
+recommented branch for new development. Regardless, please lock to the `v2` or
+`v3` branch as when `v3` is released breaking changes will be applied to the
+master branch.
 
 Pgx is a pure Go database connection library designed specifically for
 PostgreSQL. Pgx is different from other drivers such as
@@ -15,7 +29,7 @@ Pgx supports many additional features beyond what is available through database/
 * Transaction isolation level control
 * Full TLS connection control
 * Binary format support for custom types (can be much faster)
-* Copy protocol support for faster bulk data loads
+* Copy from protocol support for faster bulk data loads
 * Logging support
 * Configurable connection pool with after connect hooks to do arbitrary connection setup
 * PostgreSQL array to Go slice mapping for integers, floats, and strings
@@ -120,8 +134,4 @@ Change the following settings in your postgresql.conf:
 
 ## Version Policy
 
-pgx follows semantic versioning for the documented public API on stable releases. Branch ```v2``` is the latest stable release. ```master``` can contain new features or behavior that will change or be removed before being merged to the stable ```v2``` branch (in practice, this occurs very rarely).
-
-Consider using a vendoring
-tool such as [godep](https://github.com/tools/godep) or importing pgx via ```import
-"gopkg.in/jackc/pgx.v2"``` to lock to the ```v2``` branch.
+pgx follows semantic versioning for the documented public API on stable releases. Branch `v2` is the latest stable release. `master` can contain new features or behavior that will change or be removed before being merged to the stable `v2` branch (in practice, this occurs very rarely).
